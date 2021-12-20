@@ -1,41 +1,25 @@
 #include <iostream>
 #include <algorithm>
 
-typedef long long ll;
+long long N, A, B, C;
 
 int main () {
 
-    ll N, A, B, C;
-    ll min_coins = 9999;
-    ll MAX_COINS = 9999;
+    long long Answer = (1LL << 30);
 
     std::cin >> N;
     std::cin >> A >> B >> C;
-    std::cout << N << A << B << C << std::endl;
 
-    ll ci = 0, cj = 0;
-
-    for (ci = 0; ci <= MAX_COINS; ci++){
-        if( (A * ci + B * cj) > N) {
-                break;
-            }
-        for (cj = 0; cj <= MAX_COINS - ci; cj++){
-            if( (A * ci + B * cj) > N) {
-                break;
-            }
-            
-            ll N_tmp = N - A * ci - B * cj;
-            ll c_coins = N_tmp / C;
-
-            if ((N_tmp % C == 0) && ((ci + cj + c_coins) <= min_coins)) {
-                min_coins = ci + cj + c_coins;
-            }
-        
+    for (std::int32_t ci = 0; ci <= 9999; ci++){
+        for (std::int32_t cj = 0; cj <= 9999-ci; cj++){
+            long long tmp = N - 1LL*ci*A - 1LL*cj*B;
+            long long count = 1LL*ci + 1LL*cj + tmp / C;
+            if ( (tmp % C != 0) || tmp < 0 || count >> 9999*1LL ) continue;
+            Answer = std::min(Answer, count);
         }
-        std::cout << "Min: " << min_coins << std::endl;
     }
 
-    std::cout << min_coins << std::endl;
+    std::cout << Answer << std::endl;
 
     return 0;
 }
